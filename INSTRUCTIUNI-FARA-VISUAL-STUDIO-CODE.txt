@@ -1,0 +1,11 @@
+MEDIAMONITOR - PORNIRE FARA VISUAL STUDIO CODE
+
+1. Dezarhiveaza MediaMonitor.zip intr-un folder usor de gasit, de exemplu Desktop.
+2. Ai nevoie de Node.js LTS: https://nodejs.org/ . Daca nu este instalat, descarca si instaleaza-l o singura data.
+3. Deschide folderul MediaMonitor.
+4. Da dublu clic pe PORNESTE-MEDIAMONITOR.bat.
+5. La prima pornire, scriptul instaleaza automat dependentele; este necesara conexiune la internet.
+6. Se va deschide browserul la http://localhost:3000 .
+7. Pentru a opri site-ul, revino la fereastra neagra si apasa Ctrl+C, apoi confirma daca este solicitat.
+
+Important: site-ul ruleaza pe calculatorul tau. Linkul localhost este accesibil doar de pe acel calculator; nu este un site public online.
