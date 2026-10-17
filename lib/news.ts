@@ -74,6 +74,8 @@ export async function getStories(): Promise<{ stories: Story[]; sources: {name:s
   }));
   const unique = new Map<string, Story>();
   results.flatMap(r => r.stories).forEach(story => { if (!unique.has(story.url)) unique.set(story.url, story); });
-  const stories = [...unique.values()].sort((a,b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
+  const stories: Story[] = [];
+  unique.forEach(story => stories.push(story));
+  stories.sort((a,b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
   return { stories, sources: results.map(r => r.source) };
 }
