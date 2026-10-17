@@ -33,9 +33,9 @@ export const FEEDS = [
 ];
 
 function clean(s = '') {
-  return s.replace(/<!\\[CDATA\\[|\\]\\]>/g, '').replace(/<[^>]*>/g, ' ')
+  return s.replace(/<!\[CDATA\[|\]\]>/g, '').replace(/<[^>]*>/g, ' ')
     .replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/&quot;/g,'"')
-    .replace(/&#39;/g,"'").replace(/\\s+/g,' ').trim();
+    .replace(/&#39;/g,"'").replace(/\s+/g,' ').trim();
 }
 
 const categoryRules: { category: Category; patterns: RegExp[] }[] = [
@@ -53,7 +53,7 @@ const categoryRules: { category: Category; patterns: RegExp[] }[] = [
 
 function categoryFor(title: string, summary: string, source: string): Category {
   // Feeds dedicated to a single subject are more reliable than guessing from their full text.
-  if (/Gazeta Sporturilor|Sport\\.ro|Digi Sport/i.test(source)) return 'Sport';
+  if (/Gazeta Sporturilor|Sport\.ro|Digi Sport/i.test(source)) return 'Sport';
   if (/Cancan/i.test(source)) return 'Monden';
   if (/Ziarul Financiar|Ziarul Bursa/i.test(source)) return 'Economie';
 
@@ -77,10 +77,10 @@ function imageFrom(value: any): string | undefined {
   if (!value) return undefined;
   if (typeof value === 'string') {
     const trimmed = value.trim();
-    if (/^https?:\\/\\//i.test(trimmed)) return trimmed;
-    const match = trimmed.match(/<img\\b[^>]*?\\b(?:src|data-src)=[\"']([^\"']+)[\"']/i)
-      || trimmed.match(/<img\\b[^>]*?\\bsrcset=[\"']([^\\"']+)[\"']/i);
-    if (match?.[1]) return match[1].split(',')[0].trim().split(/\\s+/)[0];
+    if (/^https?:\/\//i.test(trimmed)) return trimmed;
+    const match = trimmed.match(/<img\b[^>]*?\b(?:src|data-src)=[\"']([^\"']+)[\"']/i)
+      || trimmed.match(/<img\b[^>]*?\bsrcset=[\"']([^\"']+)[\"']/i);
+    if (match?.[1]) return match[1].split(',')[0].trim().split(/\s+/)[0];
     return undefined;
   }
   if (Array.isArray(value)) {
@@ -93,8 +93,8 @@ function imageFrom(value: any): string | undefined {
 function summarize(title: string, raw: string) {
   const text = clean(raw);
   if (!text) return `Pe scurt: ${title}. Consultă articolul publicat de sursă pentru detalii, context și declarațiile complete.`;
-  const sentence = text.split(/(?<=[.!?])\\s+/).find(s => s.length > 45) || text;
-  const excerpt = sentence.length > 240 ? sentence.slice(0, 237).replace(/\\s+\\S*$/, '') + '…' : sentence;
+  const sentence = text.split(/(?<=[.!?])\s+/).find(s => s.length > 45) || text;
+  const excerpt = sentence.length > 240 ? sentence.slice(0, 237).replace(/\s+\S*$/, '') + '…' : sentence;
   return excerpt;
 }
 
