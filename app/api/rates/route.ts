@@ -8,7 +8,7 @@ function fromBnrXml(xml: string, sourceUrl: string): RatePayload | null {
   if (!date) return null;
   const rates: Record<string, number> = {};
   for (const code of ['EUR', 'USD', 'GBP']) {
-    const match = xml.match(new RegExp('<Rate\\s+currency=["\\']' + code + '["\\'](?:\\s+multiplier=["\\'](\\d+)["\\'])?[^>]*>([^<]+)</Rate>'));
+    const match = xml.match(new RegExp(`<Rate\\s+currency=["']${code}["'](?:\\s+multiplier=["'](\\d+)["'])?[^>]*>([^<]+)</Rate>`));
     if (match) rates[code] = Number(match[2]) / Number(match[1] || 1);
   }
   return Object.keys(rates).length ? { date, rates, sourceUrl, sourceName: 'BNR (XML oficial)' } : null;
