@@ -25,14 +25,20 @@ export default function CategoryPage() {
  const slug=Array.isArray(params.category)?params.category[0]:params.category;
  const category=categories.find(c=>c.slug===String(slug||'').toLocaleLowerCase('ro'));
  const [stories,setStories]=useState<Story[]>([]);
+ const [clock,setClock]=useState<Date|null>(null);
+ const [rates,setRates]=useState<{date:string|null;rates:Record<string,number>}>({date:null,rates:{}});
  const [loading,setLoading]=useState(true);
  const [error,setError]=useState('');
- useEffect(()=>{let live=true; fetch('/api/news',{cache:'no-store'}).then(r=>{if(!r.ok) throw new Error('RSS'); return r.json()}).then((d:NewsResponse)=>{if(live)setStories(d.stories||[])}).catch(()=>{if(live)setError('Știrile nu sunt disponibile momentan. Reîncarcă pagina în câteva momente.')}).finally(()=>{if(live)setLoading(false)});return()=>{live=false}},[]);
+ useEffect(()=>{let live=true; setClock(new Date()); const clockId=setInterval(()=>setClock(new Date()),1000); fetch('/api/rates',{cache:'no-store'}).then(r=>r.json()).then(d=>{if(live)setRates(d)}).catch(()=>{}); const ratesId=setInterval(()=>fetch('/api/rates',{cache:'no-store'}).then(r=>r.json()).then(d=>{if(live)setRates(d)}).catch(()=>{}),60*60*1000); fetch('/api/news',{cache:'no-store'}).then(r=>{if(!r.ok) throw new Error('RSS'); return r.json()}).then((d:NewsResponse)=>{if(live)setStories(d.stories||[])}).catch(()=>{if(live)setError('Știrile nu sunt disponibile momentan. Reîncarcă pagina în câteva momente.')}).finally(()=>{if(live)setLoading(false)});return()=>{live=false;clearInterval(clockId);clearInterval(ratesId)}},[]);
+ const fmtRate=(code:string)=>rates.rates[code]?rates.rates[code].toLocaleString('ro-RO',{minimumFractionDigits:4,maximumFractionDigits:4}):'—';
  const filtered=useMemo(()=>category?stories.filter(s=>s.category===category.name):[],[stories,category]);
  return <main>
-  <header className="hero"><div className="wrap"><div className="brand-row"><a className="brand" href="/"><span className="brand-mark">MM</span><span>Media<span>Monitor</span><small>Monitorizarea presei românești</small></span></a></div>
+  <header className="hero"><div className="wrap">
+   <div className="header-meta"><div className="header-datetime"><span>{clock?new Intl.DateTimeFormat('ro-RO',{weekday:'long',day:'2-digit',month:'short',year:'numeric'}).format(clock):'Data curentă'}</span><strong>{clock?new Intl.DateTimeFormat('ro-RO',{hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(clock):'--:--:--'}</strong></div><div className="rates"><div className="rate-list">{['EUR','USD','GBP'].map(code=><div className="rate" key={code}><span>{code}</span><strong>{fmtRate(code)}</strong></div>)}</div></div></div>
+   <div className="brand-row"><a className="brand" href="/"><span className="brand-mark">MM</span><span>Media<span>Monitor</span><small>Monitorizarea presei românești</small></span></a><div className="brand-header-copy"><p className="eyebrow">AGREGATOR DE ȘTIRI · SURSE PUBLICE</p><h1>Informația, <em>din toate unghiurile.</em></h1><p>Urmărește actualitatea din România și din lume, centralizată din publicații naționale, într-un singur flux.</p></div></div>
    <nav className="nav">{[{name:'Acasă',href:'/'},...categories.map(c=>({name:c.name,href:'/categorie/'+c.slug}))].map(item=><a key={item.name} className={category?.name===item.name?'selected':''} href={item.href}>{item.name}</a>)}</nav>
   </div></header>
+  <div className="wrap"><div className="ticker"><span className="live-dot"/><strong>ULTIMA ORĂ</strong><div className="ticker-viewport"><div className={stories.length?'ticker-items':'ticker-items ticker-static'}>{stories.length?[...stories.slice(0,6),...stories.slice(0,6)].map((story,i)=><a key={story.id+'-'+i} href={story.url} target="_blank" rel="noreferrer" title={story.title}>{story.title}</a>):<span>Se preiau cele mai noi informații din sursele publice…</span>}</div></div></div></div>
   <div className="wrap category-page-content">
    <div className="section-heading"><div><span className="eyebrow">MEDIAMONITOR · ȘTIRI DIN CATEGORIE</span><h1>{category?category.name:'Categorie inexistentă'}</h1></div><span className="count">{filtered.length} articole</span></div>
    {!category?<div className="empty">Categoria solicitată nu există. Alege o categorie din meniul principal.</div>:<section className="quick-category-results" id="news-list"><div className="latest-list">
