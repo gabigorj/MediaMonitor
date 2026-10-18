@@ -497,3 +497,14 @@ main:not(.dark-mode) .article-filters{background:#fff}
  .hero .brand-header-copy h1{font-size:23px}
  .hero .brand-header-copy>p:last-child{font-size:12px}
 }
+
+
+/* Data, ceas, curs valutar și controale de accesibilitate pe același rând */
+.hero .header-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:nowrap;}
+.hero .header-meta .header-datetime{flex:0 0 auto;width:auto;white-space:nowrap;}
+.hero .header-meta .rates{flex:0 0 auto;width:auto;}
+.hero .header-meta .accessibility-tools{display:flex;align-items:center;justify-content:flex-end;gap:5px;flex:0 0 auto;margin-left:auto;padding:0;white-space:nowrap;color:#ffdf00;font-size:11px;}
+.hero .header-meta .accessibility-tools>button{padding:6px 8px;font-size:11px;}
+.hero .header-meta .accessibility-tools .saved-filter{margin-left:0;}
+@media(max-width:1050px){.hero .header-meta{overflow-x:auto;scrollbar-width:thin;}.hero .header-meta .accessibility-tools{margin-left:0;}}
+@media(max-width:560px){.hero .header-meta .accessibility-tools{gap:4px;}.hero .header-meta .accessibility-tools>button{padding:5px 6px;font-size:10px;}.hero .header-meta .accessibility-tools>span{width:auto;}}
