@@ -359,3 +359,43 @@ body{font-size:16px}
  .hero .rate{padding:7px 8px}
  .hero .rate strong{font-size:12px}
 }
+
+
+/* Antet compact: data, oră și toate cursurile pe un singur rând */
+.hero{padding-top:12px!important}
+.hero .header-meta{
+ display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;
+ align-items:center!important;justify-content:space-between!important;gap:12px!important;
+ padding:0 0 8px!important;margin-bottom:10px!important;min-height:0!important;
+}
+.hero .header-datetime{
+ display:flex!important;flex:0 1 auto!important;flex-direction:row!important;
+ align-items:center!important;justify-content:flex-start!important;gap:10px!important;
+ width:auto!important;min-width:0!important;white-space:nowrap!important;
+}
+.hero .header-datetime span{font-size:11px!important;line-height:1.2!important}
+.hero .header-datetime strong{font-size:14px!important;line-height:1.2!important}
+.hero .rates{display:flex!important;flex:0 0 auto!important;width:auto!important;min-width:0!important}
+.hero .rate-list{display:flex!important;flex-wrap:nowrap!important;gap:5px!important;width:auto!important}
+.hero .rate{display:flex!important;align-items:center!important;gap:6px!important;flex:0 0 auto!important;padding:5px 8px!important;border-radius:7px!important}
+.hero .rate span{font-size:10px!important}
+.hero .rate strong{font-size:12px!important;line-height:1.2!important}
+.hero .brand-row{padding-bottom:12px!important}
+@media(max-width:850px){
+ .hero .header-meta{flex-wrap:nowrap!important;overflow-x:auto!important;scrollbar-width:none!important}
+ .hero .header-meta::-webkit-scrollbar{display:none}
+ .hero .header-datetime{flex:0 0 auto!important;width:auto!important}
+ .hero .rates{flex:0 0 auto!important;width:auto!important;flex-direction:row!important}
+ .hero .rate-list{width:auto!important}
+}
+@media(max-width:560px){
+ .hero{padding-top:9px!important}
+ .hero .header-meta{gap:8px!important;padding-bottom:7px!important;margin-bottom:8px!important}
+ .hero .header-datetime{gap:7px!important}
+ .hero .header-datetime span{font-size:10px!important}
+ .hero .header-datetime strong{font-size:12px!important}
+ .hero .rate{gap:4px!important;padding:5px 6px!important}
+ .hero .rate span{font-size:9px!important}
+ .hero .rate strong{font-size:11px!important}
+ .hero .brand-row{padding-bottom:9px!important}
+}
