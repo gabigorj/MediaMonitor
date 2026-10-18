@@ -7,7 +7,7 @@ export type Category = typeof CATEGORIES[number];
 export type Story = { id: string; title: string; summary: string; url: string; source: string; category: Category; publishedAt: string; image?: string };
 
 const parser = new Parser({
-  timeout: 9000,
+  timeout: 4500,
   headers: { 'User-Agent': 'MediaMonitor/1.0 (+public RSS news aggregator)' },
   customFields: { item: [['media:content', 'mediaContent'], ['media:thumbnail', 'mediaThumbnail'], ['itunes:image', 'itunesImage']] }
 });
@@ -98,7 +98,13 @@ function summarize(title: string, raw: string) {
   return excerpt;
 }
 
-export async function getStories(): Promise<{ stories: Story[]; sources: {name:string; ok:boolean; count:number}[] }> {
+type NewsResult = { stories: Story[]; sources: {name:string; ok:boolean; count:number}[] };
+let cachedNews: NewsResult | null = null;
+let cachedAt = 0;
+let refreshInFlight: Promise<NewsResult> | null = null;
+const CACHE_TTL = 15 * 60 * 1000;
+
+async function refreshStories(): Promise<NewsResult> {
   const results = await Promise.all(FEEDS.map(async feed => {
     try {
       const data = await parser.parseURL(feed.url);
@@ -135,4 +141,17 @@ export async function getStories(): Promise<{ stories: Story[]; sources: {name:s
   unique.forEach(story => stories.push(story));
   stories.sort((a,b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
   return { stories, sources: results.map(r => r.source) };
+}
+
+export async function getStories(): Promise<NewsResult> {
+  // Serve the last successful snapshot immediately while a background refresh runs.
+  if (cachedNews && Date.now() - cachedAt < CACHE_TTL) return cachedNews;
+  if (refreshInFlight) return cachedNews || refreshInFlight;
+  refreshInFlight = refreshStories().then(result => {
+    if (result.stories.length || !cachedNews) { cachedNews = result; cachedAt = Date.now(); }
+    return cachedNews || result;
+  }).catch(() => cachedNews || { stories: [], sources: FEEDS.map(feed => ({name:feed.source,ok:false,count:0})) })
+    .finally(() => { refreshInFlight = null; });
+  // Cold start waits for RSS once; subsequent page loads use the shared snapshot.
+  return cachedNews || refreshInFlight;
 }
