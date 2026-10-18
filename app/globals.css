@@ -508,3 +508,31 @@ main:not(.dark-mode) .article-filters{background:#fff}
 .hero .header-meta .accessibility-tools .saved-filter{margin-left:0;}
 @media(max-width:1050px){.hero .header-meta{overflow-x:auto;scrollbar-width:thin;}.hero .header-meta .accessibility-tools{margin-left:0;}}
 @media(max-width:560px){.hero .header-meta .accessibility-tools{gap:4px;}.hero .header-meta .accessibility-tools>button{padding:5px 6px;font-size:10px;}.hero .header-meta .accessibility-tools>span{width:auto;}}
+
+
+/* Fotografii uniforme: rame dreptunghiulare 16:9 pe toate paginile */
+.story-image-link,
+.archive-image-link,
+.most-read-card > a:first-child,
+.editorial-feature-image {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  max-height: none;
+  overflow: hidden;
+  background: #e7edf5;
+}
+.story-image-link .story-image,
+.archive-image-link img,
+.most-read-card img,
+.editorial-feature-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  aspect-ratio: auto;
+  object-fit: cover;
+  object-position: center;
+}
