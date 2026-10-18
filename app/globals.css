@@ -238,3 +238,37 @@ body{font-size:16px}
 .articles-page .hero .brand>span:last-child>span{color:#fff}
 .articles-page .hero .brand small{color:#493018}
 @media(max-width:600px){.archive-story{grid-template-columns:1fr;gap:12px}.archive-story img{height:200px}.articles-content{padding-top:25px}.articles-page .brand-row{gap:15px}.articles-page .brand-row>.all-news-cta{width:auto}}
+
+
+/* Antet cu data, ora live și curs valutar pe același rând */
+.header-meta{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:0 0 18px;border-bottom:1px solid #29384e;margin-bottom:18px}
+.header-datetime{display:flex;flex-direction:column;gap:5px;min-width:180px;color:#c6d0df}
+.header-datetime span{font-size:12px;text-transform:capitalize;color:#aab8ca}
+.header-datetime strong{font:800 21px Manrope,sans-serif;letter-spacing:.3px;color:#fff;font-variant-numeric:tabular-nums}
+.header-meta .rates{display:flex;align-items:center;gap:14px;min-width:0}
+.header-meta .rates-title{margin:0;white-space:nowrap}
+.header-meta .rate-list{gap:7px}
+.header-meta .rate{min-width:90px;padding:7px 10px}
+.brand-row{padding-bottom:18px}
+.ticker{gap:12px}
+.ticker-viewport{flex:1;min-width:0;overflow:hidden}
+.ticker-items{display:flex;width:max-content;min-width:max-content;gap:30px;white-space:nowrap;overflow:visible;animation:breaking-news-scroll 42s linear infinite}
+.ticker-items a{display:block;flex:0 0 auto;max-width:430px;overflow:hidden;text-overflow:ellipsis}
+.ticker-items:hover{animation-play-state:paused}
+.ticker-static{animation:none;width:auto;min-width:0}
+@keyframes breaking-news-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(max-width:850px){
+ .header-meta{align-items:flex-start;flex-direction:column;gap:13px}
+ .header-meta .rates{width:100%;align-items:flex-start;flex-direction:column;gap:8px}
+ .header-meta .rate-list{width:100%}
+ .header-meta .rate{flex:1}
+ .header-datetime{flex-direction:row;align-items:center;justify-content:space-between;width:100%}
+}
+@media(max-width:560px){
+ .header-meta{padding-bottom:14px;margin-bottom:14px}
+ .header-datetime span{font-size:11px}
+ .header-datetime strong{font-size:18px}
+ .header-meta .rates-title{font-size:9px}
+ .header-meta .rate{padding:7px 8px}
+ .ticker-items a{max-width:245px}
+}
