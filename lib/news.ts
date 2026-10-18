@@ -45,17 +45,25 @@ const categoryRules: { category: Category; patterns: RegExp[] }[] = [
   { category:'Externe', patterns:[/ucrain/i,/rusia/i,/statele unite/i,/donald trump/i,/uniunea europeană/i,/uniunea europeana/i,/orientul mijlociu/i,/israel/i,/china/i,/franța/i,/franta/i,/germania/i,/marea britanie/i,/bruxelles/i,/nato/i,/război/i,/razboi/i,/atac iran/i,/alegeri în sua/i,/alegeri in sua/i] },
   { category:'Sport', patterns:[/sport/i,/fotbal/i,/tenis/i,/campionat/i,/goluri/i,/meci/i,/liga 1/i,/formula 1/i,/baschet/i,/handbal/i,/volei/i,/olimpic/i,/antrenor/i,/transfer/i,/superliga/i,/champions league/i] },
   { category:'Tehnologie', patterns:[/tehnolog/i,/inteligență artificială/i,/inteligenta artificiala/i,/software/i,/cyber/i,/digital/i,/telefon/i,/aplicație/i,/aplicatie/i,/internet/i,/robot/i,/google/i,/microsoft/i,/apple/i,/facebook/i,/instagram/i,/platformă/i,/platforma/i,/securitate cibernetică/i] },
-  { category:'Știință', patterns:[/științ/i,/stiint/i,/cercetător/i,/cercetator/i,/nasa/i,/spațiu/i,/spatiu/i,/descoperire/i,/climă/i,/clima/i,/mediu/i,/astronom/i,/cercetare/i,/stud[iu]/i,/universitate/i,/specie nouă/i,/specie noua/i] },
+  { category:'Știință', patterns:[/științ/i,/stiint/i,/cercetător/i,/cercetator/i,/nasa/i,/spațiu/i,/spatiu/i,/descoperire/i,/climă/i,/clima/i,/mediu/i,/astronom/i,/cercetare/i,/studiu/i,/universitate/i,/specie nouă/i,/specie noua/i] },
   { category:'Cultură', patterns:[/cultur/i,/carte/i,/literatur/i,/teatru/i,/film/i,/cinema/i,/muzeu/i,/expoziț/i,/expozit/i,/festival/i,/muzică/i,/muzica/i,/artist/i,/concert/i,/premieră/i,/premiera/i,/spectacol/i] },
   { category:'Monden', patterns:[/vedet/i,/showbiz/i,/mond(en|ial)/i,/divorț/i,/divort/i,/nuntă/i,/nunta/i,/actor/i,/actriț/i,/influencer/i,/reality show/i,/emisiune tv/i,/cântăreț/i,/cantaret/i] },
   { category:'Actualitate', patterns:[/accident/i,/incendiu/i,/vreme/i,/meteo/i,/sănătate/i,/sanatate/i,/educație/i,/educatie/i,/trafic/i,/comunitate/i,/cutremur/i,/inundaț/i,/inundat/i,/pompier/i,/spital/i,/școală/i,/scoala/i,/românia/i,/romania/i] }
 ];
 
-function categoryFor(title: string, summary: string, source: string): Category {
+function categoryFor(title: string, summary: string, source: string, feedCategories: string[] = []): Category {
   // Feeds dedicated to a single subject are more reliable than guessing from their full text.
   if (/Gazeta Sporturilor|Sport\.ro|Digi Sport/i.test(source)) return 'Sport';
   if (/Cancan/i.test(source)) return 'Monden';
   if (/Ziarul Financiar|Ziarul Bursa/i.test(source)) return 'Economie';
+
+  // Prefer an explicit category supplied by the publisher's RSS feed when it maps clearly.
+  const normalizedLabels = feedCategories.map(label => label.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('ro'));
+  const directCategory = CATEGORIES.find(category => {
+    const normalized = category.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('ro');
+    return normalizedLabels.some(label => label === normalized || label.includes(normalized));
+  });
+  if (directCategory) return directCategory;
 
   // Give the headline more weight than the description, which often mentions unrelated topics.
   const headline = title.toLocaleLowerCase('ro');
@@ -131,7 +139,7 @@ async function refreshStories(): Promise<NewsResult> {
         return {
           id: `${feed.source}-${Buffer.from(url).toString('base64url').slice(0,24)}`,
           title, summary: summarize(title, raw), url, source: feed.source,
-          category: categoryFor(title, clean(raw), feed.source),
+          category: categoryFor(title, clean(raw), feed.source, Array.isArray((item as any).categories) ? (item as any).categories.map((v: unknown) => String(v)) : []),
           publishedAt: new Date(published).toISOString(), image, imageCredit: imageCreditFrom(rawItem, image)
         } as Story;
       }).filter(Boolean) as Story[];
