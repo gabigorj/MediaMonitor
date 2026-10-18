@@ -4,12 +4,12 @@ export const CATEGORIES = [
   'Actualitate','Politică','Justiție','Economie','Externe','Sport','Tehnologie','Știință','Cultură','Monden'
 ] as const;
 export type Category = typeof CATEGORIES[number];
-export type Story = { id: string; title: string; summary: string; url: string; source: string; category: Category; publishedAt: string; image?: string };
+export type Story = { id: string; title: string; summary: string; url: string; source: string; category: Category; publishedAt: string; image?: string; imageCredit?: string };
 
 const parser = new Parser({
   timeout: 4500,
   headers: { 'User-Agent': 'MediaMonitor/1.0 (+public RSS news aggregator)' },
-  customFields: { item: [['media:content', 'mediaContent'], ['media:thumbnail', 'mediaThumbnail'], ['itunes:image', 'itunesImage']] }
+  customFields: { item: [['media:content', 'mediaContent'], ['media:thumbnail', 'mediaThumbnail'], ['media:credit', 'mediaCredit'], ['itunes:image', 'itunesImage']] }
 });
 
 export const FEEDS = [
@@ -90,6 +90,14 @@ function imageFrom(value: any): string | undefined {
   return imageFrom(value.url || value.href || value.$?.url || value.$?.href || value._ || value['#text']);
 }
 
+function imageCreditFrom(rawItem: any, image?: string): string | undefined {
+  const credit = rawItem?.mediaCredit || rawItem?.credit || rawItem?.['dc:creator'];
+  const creditText = clean(typeof credit === 'string' ? credit : credit?._ || credit?.['#text'] || '');
+  if (creditText) return creditText.slice(0, 100);
+  if (image) { try { return new URL(image).hostname.replace(/^www\./, ''); } catch {} }
+  return undefined;
+}
+
 function summarize(title: string, raw: string) {
   const text = clean(raw);
   if (!text) return `Pe scurt: ${title}. Consultă articolul publicat de sursă pentru detalii, context și declarațiile complete.`;
@@ -124,7 +132,7 @@ async function refreshStories(): Promise<NewsResult> {
           id: `${feed.source}-${Buffer.from(url).toString('base64url').slice(0,24)}`,
           title, summary: summarize(title, raw), url, source: feed.source,
           category: categoryFor(title, clean(raw), feed.source),
-          publishedAt: new Date(published).toISOString(), image
+          publishedAt: new Date(published).toISOString(), image, imageCredit: imageCreditFrom(rawItem, image)
         } as Story;
       }).filter(Boolean) as Story[];
       return { stories: items, source: { name: feed.source, ok: true, count: items.length } };
