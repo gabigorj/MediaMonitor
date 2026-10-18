@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { editorialArticle } from '../../lib/editorial';
 
 type Category = 'Actualitate'|'Politică'|'Justiție'|'Economie'|'Externe'|'Sport'|'Tehnologie'|'Știință'|'Cultură'|'Monden';
 type Story = {id:string;title:string;summary:string;url:string;source:string;category:Category;publishedAt:string;image?:string};
@@ -8,11 +9,11 @@ const categories: Category[] = ['Actualitate','Politică','Justiție','Economie'
 const fmt = (s:string) => { try { return new Intl.DateTimeFormat('ro-RO',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(s)); } catch { return ''; } };
 
 export default function ArticlesPage() {
- const [stories,setStories] = useState<Story[]>([]);
+ const [stories,setStories] = useState<Story[]>([editorialArticle]);
  const [search,setSearch] = useState('');
  const [category,setCategory] = useState<Category|'Toate'>('Toate');
  const [loading,setLoading] = useState(true);
- useEffect(()=>{ fetch('/api/news',{cache:'no-store'}).then(r=>r.json()).then(d=>setStories(d.stories||[])).catch(()=>setStories([])).finally(()=>setLoading(false)); },[]);
+ useEffect(()=>{ fetch('/api/news',{cache:'no-store'}).then(r=>r.json()).then(d=>setStories([editorialArticle, ...(d.stories||[])])).catch(()=>setStories([])).finally(()=>setLoading(false)); },[]);
  const filtered = useMemo(()=>stories.filter(s=>(category==='Toate'||s.category===category)&&`${s.title} ${s.summary} ${s.source}`.toLocaleLowerCase('ro').includes(search.toLocaleLowerCase('ro'))),[stories,category,search]);
  return <main className="articles-page"><header className="hero"><div className="wrap"><div className="brand-row"><a className="brand" href="/"><span className="brand-mark">MM</span><span>Media<span>Monitor</span><small>Monitorizarea presei românești</small></span></a><a className="all-news-cta" href="/">← Înapoi la prima pagină</a></div><nav className="nav"><a href="/">Prima pagină</a><a className="selected" href="/articole">Toate articolele</a></nav></div></header><div className="wrap articles-content"><div className="articles-heading"><span className="eyebrow">ARHIVĂ LIVE</span><h1>Toate articolele</h1><p>Știrile preluate din sursele publice, într-o listă completă, cu căutare și filtre pe categorii.</p></div><div className="search-wrap"><span>⌕</span><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Caută după titlu, rezumat sau publicație…"/><button onClick={()=>setSearch('')}>Șterge</button></div><div className="article-filters"><button className={category==='Toate'?'active':''} onClick={()=>setCategory('Toate')}>Toate ({stories.length})</button>{categories.map(c=><button key={c} className={category===c?'active':''} onClick={()=>setCategory(c)}>{c}</button>)}</div><p className="articles-count">{filtered.length} articole</p>{loading?<p className="empty">Se încarcă articolele…</p>:<div className="articles-list">{filtered.map(s=><article className="archive-story" key={s.id}>{s.image&&<a href={s.url} target="_blank" rel="noreferrer"><img src={s.image} alt="" loading="lazy" referrerPolicy="no-referrer" onError={e=>{e.currentTarget.style.display='none'}}/></a>}<div><span className="archive-category">{s.category} · {fmt(s.publishedAt)}</span><a className="archive-title" href={s.url} target="_blank" rel="noreferrer">{s.title}</a><p>{s.summary}</p><div className="archive-source">{s.source} · <a href={s.url} target="_blank" rel="noreferrer">Citește la sursă ↗</a></div></div></article>)}</div>}{!loading&&!filtered.length&&<p className="empty">Nu au fost găsite articole pentru această căutare.</p>}</div><footer><div className="wrap footer-inner"><a className="brand footer-brand" href="/"><span className="brand-mark">MM</span><span>Media<span>Monitor</span><small>Monitorizarea presei românești</small></span></a><p>MediaMonitor centralizează titluri și fragmente din fluxuri publice. Conținutul integral aparține publicațiilor-sursă.</p><small>© {new Date().getFullYear()} MediaMonitor</small></div></footer></main>;
 }
