@@ -428,3 +428,9 @@ body{font-size:16px}
 .category-card-image .photo-credit{font-size:9px;padding:4px 6px}
 .archive-image-link img{display:block;width:100%;height:100%;object-fit:cover}
 @media(max-width:560px){.hero .nav{margin-bottom:8px!important}.hero .nav a{padding:8px 10px}.photo-credit{font-size:9px;padding:4px 6px}}
+
+
+/* Cerință: meniul principal pe fundal alb */
+.hero .nav{background:#fff!important;border-top:1px solid #e5eaf0!important;border-bottom:1px solid #e5eaf0!important}
+.hero .nav a{color:#713f12!important}
+.hero .nav a:hover,.hero .nav a.selected{background:#f4a64e!important;color:#38200b!important}
