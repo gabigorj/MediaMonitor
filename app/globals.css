@@ -399,3 +399,16 @@ body{font-size:16px}
  .hero .rate strong{font-size:11px!important}
  .hero .brand-row{padding-bottom:9px!important}
 }
+
+
+/* Contrast puternic pentru data, oră și curs valutar */
+.hero .header-meta{background:#000!important;color:#ffdf00!important;border-radius:8px!important;padding:7px 9px!important}
+.hero .header-datetime span,.hero .header-datetime strong,
+.hero .rate span,.hero .rate strong{color:#ffdf00!important}
+.hero .rate{background:#000!important;border:1px solid #5b5000!important}
+.hero .rates,.hero .rate-list{background:transparent!important}
+/* Navigație în paleta portocaliu-pal a site-ului */
+.hero .nav{background:#ffe4c4!important;border:0!important;border-radius:10px!important}
+.hero .nav a{color:#713f12!important}
+.hero .nav a:hover,.hero .nav a.selected{background:#f4a64e!important;color:#38200b!important}
+@media(max-width:560px){.hero .header-meta{padding:6px 7px!important}}
