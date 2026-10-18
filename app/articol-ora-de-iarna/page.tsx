@@ -1,9 +1,28 @@
+'use client';
+
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { editorialArticle } from '../../lib/editorial';
 
+const categories = ['Actualitate','Politică','Justiție','Economie','Externe','Sport','Tehnologie','Știință','Cultură','Monden'] as const;
+
 export default function WinterTimeArticle() {
+ const [clock, setClock] = useState<Date | null>(null);
+ const [rates, setRates] = useState<Record<string, number>>({});
+ useEffect(() => {
+  setClock(new Date());
+  const clockId = setInterval(() => setClock(new Date()), 1000);
+  fetch('/api/rates', { cache: 'no-store' }).then(r => r.json()).then(d => setRates(d.rates || {})).catch(() => {});
+  return () => clearInterval(clockId);
+ }, []);
+ const fmtRate = (code: string) => rates[code] ? rates[code].toLocaleString('ro-RO', { minimumFractionDigits: 4, maximumFractionDigits: 4 }) : '—';
  return <main className="articles-page editorial-article-page">
-  <header className="hero"><div className="wrap"><div className="brand-row"><a className="brand" href="/"><span className="brand-mark">MM</span><span>Media<span>Monitor</span><small>Monitorizarea presei românești</small></span></a><Link className="all-news-cta" href="/">← Înapoi la prima pagină</Link></div><nav className="nav"><a href="/">Prima pagină</a><a href="/articole">Toate articolele</a></nav></div></header>
+  <header className="hero"><div className="wrap">
+   <div className="header-meta"><div className="header-datetime"><span>{clock ? new Intl.DateTimeFormat('ro-RO',{weekday:'long',day:'2-digit',month:'short',year:'numeric'}).format(clock) : 'Data curentă'}</span><strong>{clock ? new Intl.DateTimeFormat('ro-RO',{hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(clock) : '--:--:--'}</strong></div><div className="rates"><div className="rate-list">{['EUR','USD','GBP'].map(code => <div className="rate" key={code}><span>{code}</span><strong>{fmtRate(code)}</strong></div>)}</div></div></div>
+   <div className="brand-row"><a className="brand" href="/"><span className="brand-mark">MM</span><span>Media<span>Monitor</span><small>Monitorizarea presei românești</small></span></a></div>
+   <nav className="nav"><Link href="/#news-list">Toate</Link>{categories.map(c => <Link key={c} href={`/?category=${encodeURIComponent(c)}#news-list`}>{c}</Link>)}</nav>
+   <div className="accessibility-tools"><span>MediaMonitor · Actualitate</span><Link className="all-news-cta" href="/articole">Toate articolele →</Link></div>
+  </div></header>
   <article className="wrap editorial-article">
    <div className="editorial-article-meta"><span>ACTUALITATE</span><time dateTime={editorialArticle.publishedAt}>{new Intl.DateTimeFormat('ro-RO',{day:'2-digit',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(editorialArticle.publishedAt))}</time></div>
    <h1>{editorialArticle.title}</h1><p className="editorial-deck">{editorialArticle.summary}</p>
