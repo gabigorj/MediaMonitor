@@ -20,7 +20,7 @@ export default function WinterTimeArticle() {
   <header className="hero"><div className="wrap">
    <div className="header-meta"><div className="header-datetime"><span>{clock ? new Intl.DateTimeFormat('ro-RO',{weekday:'long',day:'2-digit',month:'short',year:'numeric'}).format(clock) : 'Data curentă'}</span><strong>{clock ? new Intl.DateTimeFormat('ro-RO',{hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(clock) : '--:--:--'}</strong></div><div className="rates"><div className="rate-list">{['EUR','USD','GBP'].map(code => <div className="rate" key={code}><span>{code}</span><strong>{fmtRate(code)}</strong></div>)}</div></div></div>
    <div className="brand-row"><a className="brand" href="/"><span className="brand-mark">MM</span><span>Media<span>Monitor</span><small>Monitorizarea presei românești</small></span></a></div>
-   <nav className="nav"><Link href="/#news-list">Toate</Link>{categories.map(c => <Link key={c} href={`/?category=${encodeURIComponent(c)}#news-list`}>{c}</Link>)}</nav>
+   <nav className="nav"><Link href="/">Acasă</Link><Link href="/#news-list">Toate</Link>{categories.map(c => <Link key={c} href={`/?category=${encodeURIComponent(c)}#news-list`}>{c}</Link>)}</nav>
    <div className="accessibility-tools"><span>MediaMonitor · Actualitate</span><Link className="all-news-cta" href="/articole">Toate articolele →</Link></div>
   </div></header>
   <article className="wrap editorial-article">
