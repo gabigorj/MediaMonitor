@@ -319,3 +319,43 @@ body{font-size:16px}
 .editorial-source-note{font-size:12px;line-height:1.7;color:#64748b;margin:25px 0}
 .editorial-source-note a{color:#b45309;text-decoration:underline}
 @media(max-width:650px){.editorial-feature{grid-template-columns:1fr;gap:14px;padding:12px}.editorial-feature-image img{height:220px}.editorial-feature-copy h2{font-size:22px}.editorial-article{padding-top:25px}.editorial-article-body{font-size:16px}.editorial-deck{font-size:16px}}
+
+
+/* Antet alb, cu data, ora și cursurile aliniate pe un singur rând */
+.hero{background:#fff!important;color:#172437!important;border-bottom:1px solid #e5eaf0}
+.hero .header-meta{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid #e5eaf0}
+.hero .header-datetime{display:flex;flex-direction:row;align-items:center;gap:16px;min-width:0;color:#172437}
+.hero .header-datetime span{color:#526174;font-size:12px}
+.hero .header-datetime strong{color:#172437;font-size:17px;white-space:nowrap}
+.hero .rates{display:flex;align-items:center;min-width:0}
+.hero .rate-list{display:flex;gap:8px}
+.hero .rate{display:flex;align-items:center;gap:8px;min-width:0;background:#f7f9fc;border:1px solid #e1e7ef;color:#172437;padding:8px 11px}
+.hero .rate span{color:#526174;font-weight:800}
+.hero .rate strong{color:#172437;font-size:14px}
+.hero .rates-title{display:none}
+.hero .brand>span:last-child{color:#172437!important}
+.hero .brand>span:last-child>span{color:#e34d55!important}
+.hero .brand small{color:#69778a!important}
+.hero .nav{background:#f1f5f9;border:1px solid #e2e8f0}
+.hero .nav a{color:#334155}
+.hero .nav a:hover,.hero .nav a.selected{background:#172437;color:#fff}
+.hero .accessibility-tools{color:#526174}
+.hero .accessibility-tools>button{background:#f1f5f9;border-color:#dbe3ed;color:#172437}
+.hero .accessibility-tools>button[aria-pressed="true"],.hero .accessibility-tools .saved-filter.active{background:#172437;color:#fff;border-color:#172437}
+.hero .accessibility-tools .dark-toggle{background:#fff;color:#172437;border-color:#dbe3ed}
+.hero .accessibility-tools .dark-toggle[aria-pressed="true"]{background:#172437;color:#fff;border-color:#172437}
+@media(max-width:850px){
+ .hero .header-meta{align-items:center;flex-direction:row;flex-wrap:wrap}
+ .hero .header-datetime{flex:1 1 100%;justify-content:space-between}
+ .hero .rates{width:100%;flex-direction:row}
+ .hero .rate-list{width:100%}
+ .hero .rate{flex:1}
+}
+@media(max-width:560px){
+ .hero .header-meta{gap:10px}
+ .hero .header-datetime{gap:8px}
+ .hero .header-datetime span{font-size:10px}
+ .hero .header-datetime strong{font-size:15px}
+ .hero .rate{padding:7px 8px}
+ .hero .rate strong{font-size:12px}
+}
