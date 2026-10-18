@@ -182,3 +182,59 @@ body{font-size:16px}
  .hero-latest .latest-list .story-image{height:210px;max-height:210px}
  .category-panel{padding:14px}
 }
+
+
+/* Actualizare MediaMonitor: header în paleta portocaliu/navy și arhivă dedicată */
+.hero{background:#f4a64e;color:#172437}
+.hero .brand>span:last-child{color:#172437}
+.hero .brand>span:last-child>span{color:#fff}
+.hero .brand small{color:#493018}
+.hero .rates-title{color:#493018}
+.hero .rate{background:#172437;border-color:#263a55;color:#fff}
+.hero .rate span,.hero .rate small{color:#c5d0df}
+.hero .nav{background:#172437}
+.hero .nav a{color:#e5edf7}
+.hero .nav a:hover,.hero .nav a.selected{background:#fff;color:#172437}
+.hero .accessibility-tools{color:#493018}
+.hero .accessibility-tools>button{background:#172437;border-color:#172437;color:#fff}
+.hero .accessibility-tools>button[aria-pressed="true"],.hero .accessibility-tools .saved-filter.active{background:#fff;color:#172437;border-color:#fff}
+.hero .accessibility-tools .dark-toggle{background:#fff;color:#172437;border-color:#fff}
+.hero .accessibility-tools .dark-toggle[aria-pressed="true"]{background:#172437;color:#fff;border-color:#172437}
+.popular-side .breaking-item{border-color:#fed7aa}
+.popular-side .breaking-item>span{color:#fb923c}
+.popular-note{font-size:11px;line-height:1.6;color:#8a5a30;margin:10px 0 0}
+.dark-mode .popular-note{color:#d1a47d}
+.all-news-link{display:flex;align-items:center;justify-content:space-between;gap:25px;background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:25px;margin:28px 0 45px}
+.all-news-link h2{font:800 25px Manrope,sans-serif;margin:6px 0 8px}
+.all-news-link p{font-size:13px;line-height:1.7;color:#7b5a3c;max-width:650px;margin:0}
+.all-news-cta{display:inline-flex;align-items:center;gap:18px;flex:0 0 auto;border-radius:8px;background:#172437;color:#fff;padding:13px 17px;font-size:13px;font-weight:700}
+.all-news-cta span{font-size:19px}
+.dark-mode .all-news-link{background:#211a17;border-color:#704323}
+.dark-mode .all-news-link p{color:#d1a47d}
+.dark-mode .all-news-cta{background:#f4a64e;color:#172437}
+@media(max-width:600px){.all-news-link{align-items:flex-start;flex-direction:column;padding:18px}.all-news-cta{width:100%;justify-content:space-between}.hero .brand>span:last-child{color:#172437}}
+
+
+/* Pagina dedicată arhivei de articole */
+.articles-page{min-height:100vh;background:#fff}
+.articles-content{padding-top:36px;padding-bottom:55px}
+.articles-heading h1{font:800 clamp(30px,4vw,42px) Manrope,sans-serif;letter-spacing:-1px;margin:7px 0}
+.articles-heading p{font-size:14px;line-height:1.7;color:#69778a;margin:0 0 22px}
+.article-filters{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0}
+.article-filters button{border:1px solid var(--line);border-radius:7px;background:#fff;padding:8px 11px;color:#435166;font-size:12px;cursor:pointer}
+.article-filters button.active,.article-filters button:hover{background:#172437;color:#fff;border-color:#172437}
+.articles-count{font-size:12px;color:#7b8797;margin:16px 0}
+.articles-list{display:flex;flex-direction:column;border-top:2px solid var(--ink)}
+.archive-story{display:grid;grid-template-columns:220px minmax(0,1fr);gap:20px;padding:19px 0;border-bottom:1px solid var(--line)}
+.archive-story> a{display:block;overflow:hidden;border-radius:9px;background:#eef2f7;align-self:start}
+.archive-story img{display:block;width:100%;height:145px;object-fit:cover}
+.archive-category{display:block;font-size:11px;color:#d9444c;font-weight:700;margin-bottom:7px}
+.archive-title{display:block;font:800 19px/1.45 Manrope,sans-serif}
+.archive-title:hover{color:#d9444c}
+.archive-story p{font-size:13px;line-height:1.7;color:#69778a;margin:8px 0}
+.archive-source{font-size:11px;color:#8793a2}
+.archive-source a{font-weight:700;color:#d9444c}
+.articles-page .hero .brand>span:last-child{color:#172437}
+.articles-page .hero .brand>span:last-child>span{color:#fff}
+.articles-page .hero .brand small{color:#493018}
+@media(max-width:600px){.archive-story{grid-template-columns:1fr;gap:12px}.archive-story img{height:200px}.articles-content{padding-top:25px}.articles-page .brand-row{gap:15px}.articles-page .brand-row>.all-news-cta{width:auto}}
