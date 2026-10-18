@@ -272,3 +272,24 @@ body{font-size:16px}
  .header-meta .rate{padding:7px 8px}
  .ticker-items a{max-width:245px}
 }
+
+
+/* Categorii: fiecare secțiune are maximum șase știri în carduri foto pe trei coloane */
+.category-grid{grid-template-columns:minmax(0,1fr);gap:22px}
+.category-panel{padding:18px;background:#fff;border-color:var(--line)}
+.category-title{border-bottom:2px solid color-mix(in srgb,var(--cat) 28%,white);margin-bottom:15px}
+.category-stories-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.category-story-card{display:flex;flex-direction:column;min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:10px;background:#fff;transition:transform .18s,border-color .18s,box-shadow .18s}
+.category-story-card:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--cat) 40%,white);box-shadow:0 8px 22px #17243712}
+.category-card-image{display:block;position:relative;overflow:hidden;width:100%;aspect-ratio:16/9;background:var(--cat-bg)}
+.category-card-image img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .25s}
+.category-story-card:hover .category-card-image img{transform:scale(1.035)}
+.category-image-placeholder{display:flex;align-items:center;justify-content:center;width:100%;height:100%;padding:10px;color:var(--cat);font:700 12px Manrope,sans-serif;text-align:center}
+.category-card-content{display:flex;flex:1;flex-direction:column;padding:12px;gap:9px}
+.category-card-content strong{font:700 14px/1.55 Manrope,sans-serif;color:var(--ink)}
+.category-card-content small{margin-top:auto;padding-top:2px;color:var(--muted);font-size:11px;line-height:1.5}
+.dark-mode .category-panel,.dark-mode .category-story-card{background:#131f31;border-color:#2a3a52}
+.dark-mode .category-card-content strong{color:#edf3fb}
+.sources-below{margin:28px 0 36px}
+@media(max-width:900px){.category-stories-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.category-panel{padding:13px}.category-stories-grid{grid-template-columns:1fr;gap:11px}.category-story-card{display:grid;grid-template-columns:112px minmax(0,1fr);align-items:stretch}.category-card-image{height:100%;min-height:105px;aspect-ratio:auto}.category-card-content{padding:9px;gap:6px}.category-card-content strong{font-size:12px;line-height:1.45}.category-card-content small{font-size:10px}}
