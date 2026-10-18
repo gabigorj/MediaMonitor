@@ -131,3 +131,54 @@ body{font-size:16px}
 .dark-mode .category-panel:nth-child(n){background:#131f31}
 @media(max-width:850px){.intro{grid-template-columns:1fr;gap:20px}.intro-right{width:100%}.top-side{margin-top:0}.category-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.category-grid{grid-template-columns:1fr}.intro{padding-top:28px}}
+
+
+/* Prima pagină: știri noi în stânga, Ultima oră în dreapta */
+.intro{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,360px);align-items:start;gap:28px}
+.intro-main{min-width:0}
+.hero-latest{margin-top:28px;scroll-margin-top:18px}
+.hero-latest .section-heading{margin-bottom:13px}
+.hero-latest .section-heading h2{font-size:23px}
+.hero-latest .latest-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:stretch}
+.hero-latest .latest-list .story{height:100%;min-width:0}
+.hero-latest .latest-list .story-image{height:145px;max-height:145px;aspect-ratio:16/9}
+.hero-latest .latest-list .story-title{font-size:15px;line-height:1.45}
+.hero-latest .latest-list .story p{font-size:12px;line-height:1.55}
+.hero-latest .latest-list .story-bottom{font-size:10px}
+.intro-right{min-width:0}
+.intro-right .top-side{height:fit-content}
+.category-grid{grid-template-columns:minmax(0,1fr);gap:18px}
+.category-panel{padding:18px 20px 12px}
+.category-feature{display:grid;grid-template-columns:minmax(190px,34%) minmax(0,1fr);grid-template-rows:auto auto;column-gap:18px;align-items:start;padding:13px 0 15px;border-bottom:1px solid color-mix(in srgb,var(--cat) 14%,white)}
+.category-feature-image{grid-column:1;grid-row:1 / span 2;display:block;overflow:hidden;border-radius:9px;background:rgba(255,255,255,.65);min-height:120px;aspect-ratio:16/9}
+.category-feature-image img{display:block;width:100%;height:100%;min-height:120px;max-height:200px;aspect-ratio:16/9;object-fit:cover}
+.category-image-placeholder{display:flex;align-items:center;justify-content:center;width:100%;height:100%;min-height:120px;padding:12px;color:var(--cat);font-weight:800;font-size:13px}
+.category-feature>strong{grid-column:2;grid-row:1;font:800 18px/1.45 Manrope,sans-serif;color:var(--ink);align-self:end}
+.category-feature>small{grid-column:2;grid-row:2;color:#7b8797;font-size:11px;margin-top:8px}
+.category-story{padding:12px 0}
+.category-story strong{font-size:14px}
+.dark-mode .category-feature>strong{color:#edf3fb}
+.dark-mode .category-feature{border-color:#2a3a52}
+.sources-below{margin-bottom:30px}
+@media(max-width:900px){
+ .intro{grid-template-columns:minmax(0,1fr) minmax(270px,320px);gap:20px}
+ .hero-latest .latest-list{grid-template-columns:1fr}
+ .hero-latest .latest-list .story-image{height:170px;max-height:170px}
+ .category-feature{grid-template-columns:minmax(160px,35%) minmax(0,1fr)}
+}
+@media(max-width:700px){
+ .intro{grid-template-columns:1fr}
+ .intro-right{grid-row:2}
+ .hero-latest{margin-top:24px}
+ .hero-latest .latest-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .category-feature{grid-template-columns:1fr;row-gap:10px}
+ .category-feature-image{grid-column:1;grid-row:1;aspect-ratio:16/9}
+ .category-feature-image img{max-height:220px}
+ .category-feature>strong{grid-column:1;grid-row:2;font-size:16px}
+ .category-feature>small{grid-column:1;grid-row:3;margin-top:0}
+}
+@media(max-width:480px){
+ .hero-latest .latest-list{grid-template-columns:1fr}
+ .hero-latest .latest-list .story-image{height:210px;max-height:210px}
+ .category-panel{padding:14px}
+}
