@@ -99,7 +99,7 @@ function imageFrom(value: any): string | undefined {
 }
 
 function imageCreditFrom(rawItem: any, image?: string): string | undefined {
-  const credit = rawItem?.mediaCredit || rawItem?.credit || rawItem?.['dc:creator'];
+  const credit = rawItem?.mediaCredit || rawItem?.credit;
   const creditText = clean(typeof credit === 'string' ? credit : credit?._ || credit?.['#text'] || '');
   if (creditText) return creditText.slice(0, 100);
   if (image) { try { return new URL(image).hostname.replace(/^www\./, ''); } catch {} }
