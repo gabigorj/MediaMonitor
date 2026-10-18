@@ -434,3 +434,24 @@ body{font-size:16px}
 .hero .nav{background:#fff!important;border-top:1px solid #e5eaf0!important;border-bottom:1px solid #e5eaf0!important}
 .hero .nav a{color:#713f12!important}
 .hero .nav a:hover,.hero .nav a.selected{background:#f4a64e!important;color:#38200b!important}
+
+
+/* Intro mutat în antet, imediat după numele MediaMonitor */
+.hero .brand-row{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:28px!important;padding-bottom:14px!important}
+.brand-header-copy{flex:1;min-width:0}
+.brand-header-copy .eyebrow{display:block;color:#b45309;font-size:10px;font-weight:800;letter-spacing:1.25px;margin:0 0 3px}
+.brand-header-copy h1{font:800 clamp(20px,2.35vw,29px)/1.2 Manrope,sans-serif;letter-spacing:-.8px;margin:0 0 4px;color:#172437}
+.brand-header-copy h1 em{font-style:normal;color:#e34d55}
+.brand-header-copy>p:last-child{font-size:12px;line-height:1.45;color:#69778a;margin:0}
+.intro{padding:18px 0 29px}
+.intro-main{padding-top:0}
+@media(max-width:850px){
+ .hero .brand-row{align-items:flex-start!important;gap:18px!important}
+ .brand-header-copy h1{font-size:23px}
+}
+@media(max-width:600px){
+ .hero .brand-row{flex-direction:column!important;align-items:flex-start!important;gap:12px!important}
+ .brand-header-copy h1{font-size:23px}
+ .brand-header-copy>p:last-child{font-size:12px}
+ .intro{padding-top:12px}
+}
