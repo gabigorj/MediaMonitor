@@ -34,7 +34,7 @@ export default function CategoryPage() {
    <nav className="nav">{[{name:'Acasă',href:'/'},...categories.map(c=>({name:c.name,href:'/categorie/'+c.slug}))].map(item=><a key={item.name} className={category?.name===item.name?'selected':''} href={item.href}>{item.name}</a>)}</nav>
   </div></header>
   <div className="wrap category-page-content">
-   <div className="section-heading"><div><span className="eyebrow">MEDIAMONITOR · ȘTIRI FILTRATE</span><h1>{category?category.name:'Categorie inexistentă'}</h1></div><span className="count">{filtered.length} articole</span></div>
+   <div className="section-heading"><div><span className="eyebrow">MEDIAMONITOR · ȘTIRI DIN CATEGORIE</span><h1>{category?category.name:'Categorie inexistentă'}</h1></div><span className="count">{filtered.length} articole</span></div>
    {!category?<div className="empty">Categoria solicitată nu există. Alege o categorie din meniul principal.</div>:<section className="quick-category-results" id="news-list"><div className="latest-list">
     {filtered.map(story=>{const cat=categories.find(c=>c.name===story.category)!;return <article className="story" key={story.id}>
      {story.image&&<a className="story-image-link" href={story.url} target="_blank" rel="noreferrer"><img className="story-image" src={story.image} alt="" loading="lazy" referrerPolicy="no-referrer" onError={e=>{e.currentTarget.style.display='none'}}/><span className="photo-credit">Foto: {story.imageCredit||story.source}</span></a>}
